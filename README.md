@@ -14,7 +14,7 @@ The app is based on SOLID principles:
 3. Objects of a superclass are replaceable with objects of its subclasses.
 4. Large interfaces are split into smaller ones, where it was reasonable.
 5. High-level and low-level modules depends on abstractions.
-Different modern Spring modules were used, such as Spring Core, Spring Web MVC, Spring ORM, Spring context, Spring Security.
+  And of course, different modern Spring modules were used, such as Spring Core, Spring Web MVC, Spring ORM, Spring context, Spring Security.
 
 If you want to use this app locally(IntelliJ IDEA Ultimate is needed) on your device you need to set up tomcat: Run your project in Intelegi IDEA -> edit configuration -> add new configuration -> tomcat -> local -> fix -> your project name_war_exploded. And I recomend you to put aplication context: "/" just for your comfort. 
 If you are working directly in your browser you can only send HHTP.Get requests, so if you want to check Post, Put, Delete requests I can recomed you to use https://web.postman.co to feel the full functionality of this app. Enjoy =)  
