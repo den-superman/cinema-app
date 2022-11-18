@@ -29,8 +29,8 @@ I used Java 18 version. For interaction with DB, I used hibernate. JSON format w
 
 ## Steps to run the program
 If you want to use this app locally(IntelliJ IDEA Ultimate is needed) on your device you need to:
-1. set up tomcat version 9.0.65. Run your project in Intelegi IDEA -> edit configuration -> add new configuration -> tomcat -> local -> fix -> your project name_war_exploded. And I recomend you to put aplication context: "/" just for your comfort.
-2. configure src/main/resources/db.properties with your database properties.
+1. Set up tomcat version 9.0.65: run your project in Intelegi IDEA -> edit configuration -> add new configuration -> tomcat -> local -> fix -> your project name_war_exploded. And I recomend you to put aplication context: "/" just for your comfort.
+2. Configure src/main/resources/db.properties with your database properties.
 3. Run the program.
 
 If you are working directly in your browser you can only send HHTP.Get requests, so if you want to check Post, Put, Delete requests I can recomed you to use https://web.postman.co to feel the full functionality of this app. Enjoy =)  
