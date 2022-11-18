@@ -6,9 +6,9 @@ I am glad to introduce you its functionality. This is a simulator of cinema serv
 
 ## Design
 While creating the app I used 3-tier structure:
-DAO - this tier is responsible only for insertion and extraction data from database.
-Service - this tier is responsible for opereting this data, realization of our program’s logic.
-Controller - this tier is responsible for communicating with user. It can handle the users’ inputs and show the needed information from them.
+- DAO - this tier is responsible only for insertion and extraction data from database.
+- Service - this tier is responsible for opereting this data, realization of our program’s logic.
+- Controller - this tier is responsible for communicating with user. It can handle the users’ inputs and show the needed information from them.
 
 The app is based on SOLID principles:
 1. Each class have only one responsibility.
