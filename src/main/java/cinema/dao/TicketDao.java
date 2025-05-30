@@ -1,7 +1,10 @@
 package cinema.dao;
 
 import cinema.model.Ticket;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface TicketDao {
-    Ticket add(Ticket ticket);
+@Repository
+public interface TicketDao extends JpaRepository<Ticket, Long> {
+
 }

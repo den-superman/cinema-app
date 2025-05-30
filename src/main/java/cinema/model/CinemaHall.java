@@ -1,10 +1,11 @@
 package cinema.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "cinema_halls")
@@ -12,8 +13,20 @@ public class CinemaHall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "cinema_rows", nullable = false)
+    private int rows;
+    private int seatsInRow;
     private int capacity;
     private String description;
+
+    public CinemaHall() {
+    }
+
+    public CinemaHall(int rows, int seatsInRow) {
+        this.rows = rows;
+        this.seatsInRow = seatsInRow;
+        capacity = rows * seatsInRow;
+    }
 
     public Long getId() {
         return id;
@@ -27,8 +40,12 @@ public class CinemaHall {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public int getRows() {
+        return rows;
+    }
+
+    public int getSeatsInRow() {
+        return seatsInRow;
     }
 
     public String getDescription() {

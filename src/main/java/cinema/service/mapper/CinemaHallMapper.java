@@ -10,9 +10,8 @@ public class CinemaHallMapper implements RequestDtoMapper<CinemaHallRequestDto, 
         ResponseDtoMapper<CinemaHallResponseDto, CinemaHall> {
     @Override
     public CinemaHall mapToModel(CinemaHallRequestDto dto) {
-        CinemaHall cinemaHall = new CinemaHall();
+        CinemaHall cinemaHall = new CinemaHall(dto.getRows(), dto.getSeatsInRow());
         cinemaHall.setDescription(dto.getDescription());
-        cinemaHall.setCapacity(dto.getCapacity());
         return cinemaHall;
     }
 

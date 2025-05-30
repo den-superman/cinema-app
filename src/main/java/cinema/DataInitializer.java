@@ -6,10 +6,10 @@ import cinema.security.RoleName;
 import cinema.service.RoleService;
 import cinema.service.UserService;
 import java.util.Set;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class DataInitializer {
     private final RoleService roleService;
     private final UserService userService;
@@ -19,7 +19,7 @@ public class DataInitializer {
         this.userService = userService;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void inject() {
         Role adminRole = new Role();
         adminRole.setRole(RoleName.ADMIN);
@@ -28,8 +28,8 @@ public class DataInitializer {
         userRole.setRole(RoleName.USER);
         roleService.add(userRole);
         User user = new User();
-        user.setEmail("admin@i.ua");
-        user.setPassword("admin123");
+        user.setEmail("admin");
+        user.setPassword("admin");
         user.setRoles(Set.of(adminRole));
         userService.add(user);
     }

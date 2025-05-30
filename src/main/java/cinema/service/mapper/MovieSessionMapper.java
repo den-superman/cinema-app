@@ -2,6 +2,7 @@ package cinema.service.mapper;
 
 import cinema.dto.request.MovieSessionRequestDto;
 import cinema.dto.response.MovieSessionResponseDto;
+import cinema.model.CinemaHall;
 import cinema.model.MovieSession;
 import cinema.service.CinemaHallService;
 import cinema.service.MovieService;
@@ -20,9 +21,10 @@ public class MovieSessionMapper implements RequestDtoMapper<MovieSessionRequestD
 
     @Override
     public MovieSession mapToModel(MovieSessionRequestDto dto) {
-        MovieSession movieSession = new MovieSession();
+        CinemaHall cinemaHall = cinemaHallService.get(dto.getCinemaHallId());
+        MovieSession movieSession = new MovieSession(cinemaHall.getRows(), cinemaHall.getSeatsInRow());
         movieSession.setMovie(movieService.get(dto.getMovieId()));
-        movieSession.setCinemaHall(cinemaHallService.get(dto.getCinemaHallId()));
+        movieSession.setCinemaHall(cinemaHall);
         movieSession.setShowTime(dto.getShowTime());
         return movieSession;
     }

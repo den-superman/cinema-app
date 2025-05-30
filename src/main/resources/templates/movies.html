@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:replace="fragments :: header"/>
+
+
+<main>
+    <h1>Available Movies</h1>
+    <ul class="movie-list">
+        <li class="movie-item" th:each="movie : ${movies}">
+            <div class="movie-info">
+                <p class="movie-title" th:text="${movie.title}">Movie Title</p>
+                <p class="movie-description" th:text="${movie.description}">Movie description goes here...</p>
+            </div>
+            <div class="movie-actions">
+                <a class="book" th:href="@{/movie-sessions/available(movieId=${movie.id})}">Check available sessions</a>
+            </div>
+        </li>
+    </ul>
+</main>
+
+</body>
+</html>

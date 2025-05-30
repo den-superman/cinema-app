@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Free Seats</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .seating-chart {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .row {
+            display: flex;
+            margin-bottom: 5px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .row span:first-child {
+            width: 60px; /* Fixed width for row numbers */
+            text-align: right;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .seat {
+            width: 30px;
+            height: 30px;
+            margin: 2px;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .seat.free {
+            background-color: #90EE90; /* Light Green for Free Seats */
+        }
+
+        .seat.occupied {
+            background-color: #FF6347; /* Tomato Red for Occupied Seats */
+            cursor: not-allowed;
+        }
+
+        .seat.selected {
+            background-color: #FFD700; /* Gold for Selected Seats */
+        }
+
+        /* Hover effect */
+        .seat.free:hover {
+            background-color: #32CD32; /* Darker green on hover */
+        }
+
+        .approve-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto; /* Center the button under the matrix */
+        }
+
+        .approve-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Choose Your Seat</h1>
+<div class="seating-chart">
+    <div th:each="row, rowStat : ${seatMatrix}">
+        <div class="row">
+            <span th:text="'Row ' + ${rowStat.index + 1}"></span>
+            <div th:each="seat, seatStat : ${row}"
+                 th:class="'seat ' + (${seat} ? 'occupied' : 'free')"
+                 th:attr="data-row=${rowStat.index + 1}, data-seat=${seatStat.index + 1}">
+                <span th:text="${seatStat.index + 1}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="approve-button" id="approve-selection">Confirm Selection</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const freeSeats = document.querySelectorAll(".seat.free");
+        const approveButton = document.getElementById("approve-selection");
+        const selectedSeats = [];
+
+        // Extract movie session ID from the URL
+        const urlParts = window.location.pathname.split("/");
+        const movieSessionId = urlParts[urlParts.indexOf("movie-sessions") + 1];
+
+        // Add click event listener to each free seat
+        freeSeats.forEach(seat => {
+            seat.addEventListener("click", () => {
+                const row = seat.getAttribute("data-row");
+                const seatNumber = seat.getAttribute("data-seat");
+
+                // Toggle selection
+                if (seat.classList.contains("selected")) {
+                    seat.classList.remove("selected");
+                    selectedSeats.splice(selectedSeats.indexOf(`${row}-${seatNumber}`), 1);
+                } else {
+                    seat.classList.add("selected");
+                    selectedSeats.push(`${row}-${seatNumber}`);
+                }
+            });
+        });
+
+        // Add click event to the approve button
+        approveButton.addEventListener("click", () => {
+            if (selectedSeats.length === 0) {
+                alert("No seats selected!");
+                return;
+            }
+
+            // Prepare the data to send to the server
+            const payload = {
+                seats: selectedSeats
+            };
+
+            // Send POST request to the server
+            fetch(`/movie-sessions/${movieSessionId}/confirm-seats`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Seats successfully confirmed!");
+                } else {
+                    alert("Error confirming seats. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
+        });
+    });
+</script>
+</body>
+</html>

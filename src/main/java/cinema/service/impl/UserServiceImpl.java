@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User add(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        return userDao.add(user);
+        return userDao.save(user);
     }
 
     @Override
     public User get(Long id) {
-        return userDao.get(id).orElseThrow(
+        return userDao.findById(id).orElseThrow(
                 () -> new RuntimeException("User with id " + id + " not found"));
     }
 

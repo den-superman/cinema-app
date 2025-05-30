@@ -16,17 +16,17 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie add(Movie movie) {
-        return movieDao.add(movie);
+        return movieDao.save(movie);
     }
 
     @Override
     public Movie get(Long id) {
-        return movieDao.get(id).orElseThrow(
+        return movieDao.findById(id).orElseThrow(
                 () -> new RuntimeException("Can't get movie by id " + id));
     }
 
     @Override
     public List<Movie> getAll() {
-        return movieDao.getAll();
+        return movieDao.findAll();
     }
 }

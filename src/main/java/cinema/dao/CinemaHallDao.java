@@ -3,11 +3,10 @@ package cinema.dao;
 import cinema.model.CinemaHall;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CinemaHallDao {
-    CinemaHall add(CinemaHall cinemaHall);
+@Repository
+public interface CinemaHallDao extends JpaRepository<CinemaHall, Long> {
 
-    Optional<CinemaHall> get(Long id);
-
-    List<CinemaHall> getAll();
 }

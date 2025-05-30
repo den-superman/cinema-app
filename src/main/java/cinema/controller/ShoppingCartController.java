@@ -11,6 +11,7 @@ import cinema.service.mapper.ResponseDtoMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +37,7 @@ public class ShoppingCartController {
         this.shoppingCartResponseDtoMapper = shoppingCartResponseDtoMapper;
     }
 
-    @PutMapping("/movie-sessions")
+    @PostMapping("/movie-sessions")
     public void addToCart(Authentication auth, @RequestParam Long movieSessionId) {
         UserDetails details = (UserDetails) auth.getPrincipal();
         String email = details.getUsername();

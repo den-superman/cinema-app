@@ -1,12 +1,12 @@
 package cinema.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tickets")
@@ -20,6 +20,24 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    private int line;
+    private int seat;
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
 
     public Long getId() {
         return id;
@@ -47,9 +65,12 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{"
-                + "id=" + id
-                + ", movieSession=" + movieSession
-                + ", user=" + user + '}';
+        return "Ticket{" +
+                "id=" + id +
+                ", movieSession=" + movieSession +
+                ", user=" + user +
+                ", row=" + line +
+                ", place=" + seat +
+                '}';
     }
 }

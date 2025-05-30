@@ -1,6 +1,7 @@
 package cinema.dto.response;
 
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class MovieSessionResponseDto {
     private Long movieSessionId;

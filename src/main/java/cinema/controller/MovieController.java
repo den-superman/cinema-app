@@ -9,13 +9,16 @@ import cinema.service.mapper.ResponseDtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping("/movies")
 public class MovieController {
     private final MovieService movieService;
@@ -31,16 +34,17 @@ public class MovieController {
     }
 
     @PostMapping
+    @ResponseBody
     public MovieResponseDto add(@RequestBody @Valid MovieRequestDto requestDto) {
         Movie movie = movieService.add(movieRequestDtoMapper.mapToModel(requestDto));
         return movieResponseDtoMapper.mapToDto(movie);
     }
 
     @GetMapping
-    public List<MovieResponseDto> getAll() {
-        return movieService.getAll()
-                .stream()
-                .map(movieResponseDtoMapper::mapToDto)
-                .collect(Collectors.toList());
+    public String showMovies(Model model) {
+        List<Movie> movies = movieService.getAll().stream().toList();
+        model.addAttribute("movies", movies);
+        return "movies";
     }
+
 }

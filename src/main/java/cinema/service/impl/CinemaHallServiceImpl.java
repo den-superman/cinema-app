@@ -16,17 +16,17 @@ public class CinemaHallServiceImpl implements CinemaHallService {
 
     @Override
     public CinemaHall add(CinemaHall cinemaHall) {
-        return cinemaHallDao.add(cinemaHall);
+        return cinemaHallDao.save(cinemaHall);
     }
 
     @Override
     public CinemaHall get(Long id) {
-        return cinemaHallDao.get(id).orElseThrow(
+        return cinemaHallDao.findById(id).orElseThrow(
                 () -> new RuntimeException("Can't get cinema hall by id " + id));
     }
 
     @Override
     public List<CinemaHall> getAll() {
-        return cinemaHallDao.getAll();
+        return cinemaHallDao.findAll();
     }
 }
