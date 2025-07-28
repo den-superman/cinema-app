@@ -9,7 +9,7 @@ import java.util.Set;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class DataInitializer {
     private final RoleService roleService;
     private final UserService userService;
@@ -26,11 +26,10 @@ public class DataInitializer {
         this.movieSessionService = movieSessionService;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void inject() {
         createAdmin();
         insertMovies();
-
     }
 
     private void insertMovies() {
