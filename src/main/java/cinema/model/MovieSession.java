@@ -29,7 +29,7 @@ public class MovieSession {
     @Column(name = "show_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime showTime;
-    @Column(columnDefinition = "JSON")
+    @Column(columnDefinition = "text") // или "text"
     private String occupiedSeatsJson; // Store the 2D array as JSON
 
     @Transient

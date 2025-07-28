@@ -83,14 +83,23 @@ public class MovieSessionController {
     }
 
     @PostMapping("/{id}/confirm-seats")
-    public ResponseEntity<String> confirmSeats(@RequestBody Map<String, List<String>> payload) {
+    public ResponseEntity<String> confirmSeats(@PathVariable Long id, @RequestBody Map<String, List<String>> payload) {
         List<String> selectedSeats = payload.get("seats");
 
         if (selectedSeats == null || selectedSeats.isEmpty()) {
             return ResponseEntity.badRequest().body("No seats selected");
         }
 
-        // TODO Process the selected seats (e.g., save to database, mark as occupied, etc.)
+        MovieSession movieSession = movieSessionService.get(id);
+        boolean[][] occupiedSeats = movieSession.getOccupiedSeats();
+        selectedSeats.forEach(s -> {
+            int row = Integer.parseInt(s.split("-")[0]);
+            int seat = Integer.parseInt(s.split("-")[1]);
+            occupiedSeats[row-1][seat-1] = true;
+        });
+        movieSession.setOccupiedSeats(occupiedSeats);
+        movieSessionService.update(movieSession);
+
         System.out.println("Selected seats: " + selectedSeats);
 
         // Return a success response
