@@ -3,79 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Sessions</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f8f9fa;
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f7f8fc;
+            margin: 0;
+            padding: 0;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        main {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
-        table th, table td {
-            padding: 12px;
-            text-align: left;
-            border: 1px solid #dee2e6;
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
         }
 
-        table th {
-            background-color: #007bff;
+        .session-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .session-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .session-info {
+            flex: 1 1 60%;
+        }
+
+        .movie-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 0.4rem;
+        }
+
+        .cinema-hall,
+        .show-time {
+            font-size: 0.95rem;
+            color: #6c7a89;
+            margin-bottom: 0.2rem;
+        }
+
+        .choose-seat-btn {
+            background-color: #3498db;
             color: white;
-        }
-
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .add-to-cart-btn {
-            background-color: #28a745;
-            color: white;
+            padding: 0.6rem 1.2rem;
             border: none;
-            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
             cursor: pointer;
-            border-radius: 5px;
-            font-size: 14px;
+            transition: background-color 0.3s ease;
         }
 
-        .add-to-cart-btn:hover {
-            background-color: #218838;
+        .choose-seat-btn:hover {
+            background-color: #2980b9;
+        }
+
+        form {
+            flex: 1 1 auto;
+            text-align: right;
+        }
+
+        @media (max-width: 600px) {
+            .session-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            form {
+                text-align: left;
+                margin-top: 1rem;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 <div th:replace="~{fragments :: header}"></div>
 
-<h1>Movie Sessions</h1>
+<main>
+    <h1>🎟️ Movie Sessions</h1>
 
-<table>
-    <thead>
-    <tr>
-        <th>Movie</th>
-        <th>Cinema Hall</th>
-        <th>Show Date and Time</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Loop through the movieSessions list -->
-    <tr th:each="movieSession : ${movieSessions}">
-        <td th:text="${movieSession.movie.title}"></td>
-        <td th:text="${movieSession.cinemaHall.description}"></td>
-        <!-- Format LocalDateTime to a readable format -->
-        <td th:text="${movieSession.showTime}"></td>
-        <td>
+    <div class="session-list">
+        <div class="session-card" th:each="movieSession : ${movieSessions}">
+            <div class="session-info">
+                <p class="movie-title" th:text="${movieSession.movie.title}">Movie title</p>
+                <p class="cinema-hall" th:text="'Hall: ' + ${movieSession.cinemaHall.description}">Cinema Hall</p>
+                <p class="show-time"
+                   th:text="'Showtime: ' + ${#temporals.format(movieSession.showTime, 'dd MMM yyyy, HH:mm')}">Show
+                    time</p>
+            </div>
             <form th:action="@{/movie-sessions/{id}/seats(id=${movieSession.id})}" method="get">
-                <button type="submit" class="choose-seat-btn">Choose seat</button>
+                <button type="submit" class="choose-seat-btn">Choose Seat</button>
             </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        </div>
+    </div>
+</main>
 
 </body>
 </html>

@@ -2,41 +2,21 @@ package cinema.dto.request;
 
 import cinema.lib.FieldsValueMatch;
 import cinema.lib.ValidEmail;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @FieldsValueMatch(
-        field = "password",
-        fieldMatch = "repeatPassword",
-        message = "Passwords do not match!"
-)
+    field = "password",
+    fieldMatch = "repeatPassword",
+    message = "Passwords do not match!")
 public class UserRequestDto {
-    @ValidEmail
-    private String email;
-    @Size(min = 8, max = 40)
-    private String password;
-    private String repeatPassword;
+  @ValidEmail private String email;
 
-    public String getEmail() {
-        return email;
-    }
+  @Size(min = 8, max = 40)
+  private String password;
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
+  private String repeatPassword;
 }

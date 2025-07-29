@@ -9,28 +9,29 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final PasswordEncoder encoder;
-    private final UserDao userDao;
+  private final PasswordEncoder encoder;
+  private final UserDao userDao;
 
-    public UserServiceImpl(PasswordEncoder encoder, UserDao userDao) {
-        this.encoder = encoder;
-        this.userDao = userDao;
-    }
+  public UserServiceImpl(PasswordEncoder encoder, UserDao userDao) {
+    this.encoder = encoder;
+    this.userDao = userDao;
+  }
 
-    @Override
-    public User add(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        return userDao.save(user);
-    }
+  @Override
+  public User add(User user) {
+    user.setPassword(encoder.encode(user.getPassword()));
+    return userDao.save(user);
+  }
 
-    @Override
-    public User get(Long id) {
-        return userDao.findById(id).orElseThrow(
-                () -> new RuntimeException("User with id " + id + " not found"));
-    }
+  @Override
+  public User get(Long id) {
+    return userDao
+        .findById(id)
+        .orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
+  }
 
-    @Override
-    public Optional<User> findByEmail(String email) {
-        return userDao.findByEmail(email);
-    }
+  @Override
+  public Optional<User> findByEmail(String email) {
+    return userDao.findByEmail(email);
+  }
 }

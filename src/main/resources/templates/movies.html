@@ -1,11 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<body>
-<div th:replace="fragments :: header"/>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Available Movies</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f7f8fc;
+            margin: 0;
+            padding: 0;
+        }
 
+        main {
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+
+        .movie-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .movie-item {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .movie-info {
+            margin-bottom: 1rem;
+        }
+
+        .movie-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 0.5rem;
+        }
+
+        .movie-description {
+            font-size: 0.95rem;
+            color: #6c7a89;
+        }
+
+        .movie-actions {
+            text-align: right;
+        }
+
+        .book {
+            background-color: #3498db;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .book:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments :: header"></div>
 
 <main>
-    <h1>Available Movies</h1>
+    <h1>🎬 Available Movies</h1>
     <ul class="movie-list">
         <li class="movie-item" th:each="movie : ${movies}">
             <div class="movie-info">
@@ -13,7 +89,7 @@
                 <p class="movie-description" th:text="${movie.description}">Movie description goes here...</p>
             </div>
             <div class="movie-actions">
-                <a class="book" th:href="@{/movie-sessions/available(movieId=${movie.id})}">Check available sessions</a>
+                <a class="book" th:href="@{/movie-sessions/available(movieId=${movie.id})}">Check Sessions</a>
             </div>
         </li>
     </ul>

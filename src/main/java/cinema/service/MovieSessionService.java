@@ -5,13 +5,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface MovieSessionService {
-    List<MovieSession> findAvailableSessions(Long movieId, LocalDate date);
+  List<MovieSession> findAvailableSessions(Long movieId, LocalDate date);
 
-    MovieSession add(MovieSession session);
+  MovieSession add(MovieSession session);
 
-    MovieSession get(Long id);
+  MovieSession get(Long id);
 
-    MovieSession update(MovieSession movieSession);
+  MovieSession update(MovieSession movieSession);
 
-    void delete(Long id);
+  void delete(Long id);
 }

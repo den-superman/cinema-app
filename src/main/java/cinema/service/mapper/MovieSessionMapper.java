@@ -9,34 +9,35 @@ import cinema.service.MovieService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MovieSessionMapper implements RequestDtoMapper<MovieSessionRequestDto, MovieSession>,
+public class MovieSessionMapper
+    implements RequestDtoMapper<MovieSessionRequestDto, MovieSession>,
         ResponseDtoMapper<MovieSessionResponseDto, MovieSession> {
-    private final CinemaHallService cinemaHallService;
-    private final MovieService movieService;
+  private final CinemaHallService cinemaHallService;
+  private final MovieService movieService;
 
-    public MovieSessionMapper(CinemaHallService cinemaHallService, MovieService movieService) {
-        this.cinemaHallService = cinemaHallService;
-        this.movieService = movieService;
-    }
+  public MovieSessionMapper(CinemaHallService cinemaHallService, MovieService movieService) {
+    this.cinemaHallService = cinemaHallService;
+    this.movieService = movieService;
+  }
 
-    @Override
-    public MovieSession mapToModel(MovieSessionRequestDto dto) {
-        CinemaHall cinemaHall = cinemaHallService.get(dto.getCinemaHallId());
-        MovieSession movieSession = new MovieSession(cinemaHall.getRows(), cinemaHall.getSeatsInRow());
-        movieSession.setMovie(movieService.get(dto.getMovieId()));
-        movieSession.setCinemaHall(cinemaHall);
-        movieSession.setShowTime(dto.getShowTime());
-        return movieSession;
-    }
+  @Override
+  public MovieSession mapToModel(MovieSessionRequestDto dto) {
+    CinemaHall cinemaHall = cinemaHallService.get(dto.getCinemaHallId());
+    MovieSession movieSession = new MovieSession(cinemaHall.getRows(), cinemaHall.getSeatsInRow());
+    movieSession.setMovie(movieService.get(dto.getMovieId()));
+    movieSession.setCinemaHall(cinemaHall);
+    movieSession.setShowTime(dto.getShowTime());
+    return movieSession;
+  }
 
-    @Override
-    public MovieSessionResponseDto mapToDto(MovieSession movieSession) {
-        MovieSessionResponseDto responseDto = new MovieSessionResponseDto();
-        responseDto.setMovieSessionId(movieSession.getId());
-        responseDto.setCinemaHallId(movieSession.getCinemaHall().getId());
-        responseDto.setMovieId(movieSession.getMovie().getId());
-        responseDto.setMovieTitle(movieSession.getMovie().getTitle());
-        responseDto.setShowTime(movieSession.getShowTime());
-        return responseDto;
-    }
+  @Override
+  public MovieSessionResponseDto mapToDto(MovieSession movieSession) {
+    MovieSessionResponseDto responseDto = new MovieSessionResponseDto();
+    responseDto.setMovieSessionId(movieSession.getId());
+    responseDto.setCinemaHallId(movieSession.getCinemaHall().getId());
+    responseDto.setMovieId(movieSession.getMovie().getId());
+    responseDto.setMovieTitle(movieSession.getMovie().getTitle());
+    responseDto.setShowTime(movieSession.getShowTime());
+    return responseDto;
+  }
 }

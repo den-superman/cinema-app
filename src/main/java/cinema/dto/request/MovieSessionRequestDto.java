@@ -1,26 +1,27 @@
 package cinema.dto.request;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 public class MovieSessionRequestDto {
-    @Min(1)
-    private Long movieId;
-    @Min(1)
-    private Long cinemaHallId;
-    @NotNull
-    private LocalDateTime showTime;
+  @Min(1)
+  private Long movieId;
 
-    public Long getMovieId() {
-        return movieId;
-    }
+  @Min(1)
+  private Long cinemaHallId;
 
-    public Long getCinemaHallId() {
-        return cinemaHallId;
-    }
+  @NotNull private LocalDateTime showTime;
 
-    public LocalDateTime getShowTime() {
-        return showTime;
-    }
+  public Long getMovieId() {
+    return movieId;
+  }
+
+  public Long getCinemaHallId() {
+    return cinemaHallId;
+  }
+
+  public LocalDateTime getShowTime() {
+    return showTime;
+  }
 }

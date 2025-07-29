@@ -13,22 +13,24 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MovieSessionDaoImpl extends AbstractDao<MovieSession> implements MovieSessionDao {
-    public MovieSessionDaoImpl(SessionFactory factory) {
-        super(factory, MovieSession.class);
-    }
+  public MovieSessionDaoImpl(SessionFactory factory) {
+    super(factory, MovieSession.class);
+  }
 
-    @Override
-    public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        try (Session session = factory.openSession()) {
-            Query<MovieSession> getAvailableSessions = session.createQuery(
-                    "FROM MovieSession m WHERE m.movie.id = :id "
-                            + "AND DATE(m.showTime) > :date", MovieSession.class);
-            getAvailableSessions.setParameter("id", movieId);
-            getAvailableSessions.setParameter("date", date);
-            return getAvailableSessions.getResultList();
-        } catch (Exception e) {
-            throw new DataProcessingException("Session for movie with id "
-                    + movieId + " and show date after " + date + " not found", e);
-        }
+  @Override
+  public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
+    try (Session session = factory.openSession()) {
+      Query<MovieSession> getAvailableSessions =
+          session.createQuery(
+              "FROM MovieSession m WHERE m.movie.id = :id " + "AND DATE(m.showTime) > :date",
+              MovieSession.class);
+      getAvailableSessions.setParameter("id", movieId);
+      getAvailableSessions.setParameter("date", date);
+      return getAvailableSessions.getResultList();
+    } catch (Exception e) {
+      throw new DataProcessingException(
+          "Session for movie with id " + movieId + " and show date after " + date + " not found",
+          e);
     }
+  }
 }
