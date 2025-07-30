@@ -90,10 +90,54 @@
             </div>
             <div class="movie-actions">
                 <a class="book" th:href="@{/movie-sessions/available(movieId=${movie.id})}">Check Sessions</a>
+                <button class="comments-toggle" type="button" th:attr="data-movie-id=${movie.id}">
+                    Comments
+                </button>
             </div>
+            <div class="comments-section" style="display: none;"></div>
+
         </li>
     </ul>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.comments-toggle').forEach(button => {
+        button.addEventListener('click', function () {
+          const movieId = this.getAttribute('data-movie-id');
+          const container = this.closest('li').querySelector('.comments-section');
+
+          if (container.style.display === 'none') {
+            fetch(`/movies/${movieId}/comments`)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(comments => {
+    console.log('COMMENTS:', comments);
+    container.innerHTML = comments.map(c => `
+      <div class="comment">
+        <strong>${c.userEmail}</strong>: ${c.text}
+      </div>
+    `).join('');
+    container.style.display = 'block';
+    this.textContent = 'Hide Comments';
+  })
+  .catch(err => {
+    console.error('FETCH ERROR:', err);
+    container.innerHTML = '<p>Error loading comments.</p>';
+    container.style.display = 'block';
+  });
+          } else {
+            container.style.display = 'none';
+            this.textContent = 'Comments';
+          }
+        });
+      });
+    });
+</script>
 
 </body>
 </html>

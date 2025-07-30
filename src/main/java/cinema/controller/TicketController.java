@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/tickets")
 public class TicketController {
-  private final UserService userService;
   private final TicketDao ticketDao;
 
-  public TicketController(UserService userService, TicketDao ticketDao) {
-    this.userService = userService;
+  public TicketController(TicketDao ticketDao) {
     this.ticketDao = ticketDao;
   }
 
@@ -26,12 +24,7 @@ public class TicketController {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String email = authentication.getName();
 
-    User user =
-        userService
-            .findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User with email " + email + " not found"));
-
-    model.addAttribute("tickets", ticketDao.findByUser(user));
+    model.addAttribute("tickets", ticketDao.findByUserEmail(email));
 
     return "tickets";
   }

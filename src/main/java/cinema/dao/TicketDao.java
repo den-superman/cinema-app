@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TicketDao extends JpaRepository<Ticket, Long> {
   List<Ticket> findByUser(User user);
+
+  List<Ticket> findByUserId(Long userId);
+
+  List<Ticket> findByUserEmail(String email);
 }

@@ -11,6 +11,7 @@ import cinema.service.mapper.RequestDtoMapper;
 import cinema.service.mapper.ResponseDtoMapper;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +63,8 @@ public class MovieSessionController {
 
   @GetMapping("/available")
   public String findAvailableSessions(@RequestParam Long movieId, Model model) {
-    LocalDate date = LocalDate.now();
-    List<MovieSession> availableSessions = movieSessionService.findAvailableSessions(movieId, date);
+    LocalDateTime dateTime = LocalDateTime.now();
+    List<MovieSession> availableSessions = movieSessionService.findAvailableSessions(movieId, dateTime);
     model.addAttribute("movieSessions", availableSessions);
     return "movie-sessions";
   }
