@@ -54,8 +54,8 @@ public class SecurityConfig {
             formLogin ->
                 formLogin
                     .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/movies", true)
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/movies", true)
                     //                                .failureForwardUrl("/cinema-halls")
                     .permitAll())
         .logout(

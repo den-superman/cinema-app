@@ -3,7 +3,6 @@ package cinema.service.impl;
 import cinema.dao.MovieSessionDao;
 import cinema.model.MovieSession;
 import cinema.service.MovieSessionService;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;

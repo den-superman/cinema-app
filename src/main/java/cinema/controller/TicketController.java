@@ -1,8 +1,6 @@
 package cinema.controller;
 
 import cinema.dao.TicketDao;
-import cinema.model.User;
-import cinema.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;

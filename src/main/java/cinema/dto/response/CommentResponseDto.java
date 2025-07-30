@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class CommentResponseDto {
-    private String userEmail;
-    private String text;
+  private String userEmail;
+  private String text;
 }

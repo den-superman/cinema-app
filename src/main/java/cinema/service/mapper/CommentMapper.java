@@ -5,10 +5,10 @@ import cinema.model.Comment;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommentMapper implements ResponseDtoMapper<CommentResponseDto, Comment>{
+public class CommentMapper implements ResponseDtoMapper<CommentResponseDto, Comment> {
 
-    @Override
-    public CommentResponseDto mapToDto(Comment comment) {
-        return new CommentResponseDto(comment.getUser().getEmail(), comment.getText());
-    }
+  @Override
+  public CommentResponseDto mapToDto(Comment comment) {
+    return new CommentResponseDto(comment.getUser().getEmail(), comment.getText());
+  }
 }

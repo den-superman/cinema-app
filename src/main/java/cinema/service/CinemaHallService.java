@@ -9,6 +9,4 @@ public interface CinemaHallService {
   CinemaHall get(Long id);
 
   List<CinemaHall> getAll();
-
-
 }
