@@ -9,6 +9,6 @@ public class CommentMapper implements ResponseDtoMapper<CommentResponseDto, Comm
 
   @Override
   public CommentResponseDto mapToDto(Comment comment) {
-    return new CommentResponseDto(comment.getUser().getEmail(), comment.getText());
+    return new CommentResponseDto(comment.getId(), comment.getUser().getEmail(), comment.getText());
   }
 }

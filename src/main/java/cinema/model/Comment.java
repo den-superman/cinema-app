@@ -12,6 +12,8 @@ public class Comment {
   private Long id;
 
   private String text;
+
+  @Enumerated(EnumType.STRING)
   private Status status;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -23,6 +25,6 @@ public class Comment {
   private Movie movie;
 
   public enum Status {
-    ACCEPTED, PENDING
+    ACCEPTED, PENDING, REJECTED, DELETED
   }
 }

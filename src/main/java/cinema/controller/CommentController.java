@@ -3,11 +3,11 @@ package cinema.controller;
 import cinema.dto.response.CommentResponseDto;
 import cinema.model.Comment;
 import cinema.service.CommentService;
-import cinema.service.MovieService;
-import cinema.service.UserService;
 import cinema.service.mapper.ResponseDtoMapper;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,27 +18,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/movies/{movieId}/comments")
 public class CommentController {
   private final CommentService commentService;
-  private final ResponseDtoMapper<CommentResponseDto, Comment> mapper;
+  private final ResponseDtoMapper<CommentResponseDto, Comment> commentResponseDtoMapper;
 
   public CommentController(
       CommentService commentService,
-      UserService userService,
       ResponseDtoMapper<CommentResponseDto, Comment> mapper) {
     this.commentService = commentService;
-    this.mapper = mapper;
+    this.commentResponseDtoMapper = mapper;
   }
 
   @GetMapping("/accepted")
   public List<CommentResponseDto> showAcceptedComments(@PathVariable Long movieId, Model model) {
     return commentService.getAcceptedByMovieId(movieId).stream()
-            .map(mapper::mapToDto).toList();
+            .map(commentResponseDtoMapper::mapToDto).toList();
   }
 
   @GetMapping("/pending")
   @PreAuthorize("hasRole('ADMIN')")
   public List<CommentResponseDto> showPendingComments(@PathVariable Long movieId, Model model) {
     return commentService.getPendingByMovieId(movieId).stream()
-            .map(mapper::mapToDto).toList();
+            .map(commentResponseDtoMapper::mapToDto).toList();
   }
 
   @PostMapping
@@ -48,6 +47,14 @@ public class CommentController {
 
     Comment comment = commentService.add(text, movieId, username);
 
-    return mapper.mapToDto(comment);
+    return commentResponseDtoMapper.mapToDto(comment);
+  }
+
+  @PatchMapping("/{id}")
+  public CommentResponseDto updateCommentStatus(@PathVariable Long id,
+                                                  @RequestBody Map<String, Comment.Status> statusUpdate) {
+    Comment comment = commentService.get(id);
+    comment.setStatus(statusUpdate.get("status"));
+    return commentResponseDtoMapper.mapToDto(commentService.update(comment));
   }
 }
