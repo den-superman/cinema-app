@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommentDao extends JpaRepository<Comment, Long> {
-  List<Comment> findByMovieId(Long movieId);
+  List<Comment> findByMovieIdAndStatus(Long movieId, Comment.Status status);
 }

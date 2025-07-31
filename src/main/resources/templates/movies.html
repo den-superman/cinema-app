@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <title>Available Movies</title>
@@ -65,28 +66,32 @@
             gap: 0.5rem;
         }
 
-        .book {
+        .button {
             background-color: #3498db;
             color: white;
             padding: 0.6rem 1.2rem;
             text-decoration: none;
             border-radius: 8px;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-        }
-
-        .book:hover {
-            background-color: #2980b9;
-        }
-        .comment-button {
-            background-color: #2ecc71;
-            cursor: pointer;
             border: none;
             font-size: 1rem;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #2980b9;
         }
 
+        .comment-button {
+            background-color: #2ecc71;
+        }
         .comment-button:hover {
             background-color: #27ae60;
+        }
+
+        .button-admin {
+            background-color: #e67e00;
+        }
+        .button-admin:hover {
+            background-color: #cc6f00 ;
         }
     </style>
 </head>
@@ -102,8 +107,13 @@
                 <p class="movie-description" th:text="${movie.description}">Movie description goes here...</p>
             </div>
             <div class="movie-actions">
-                <button class="book comment-button comments-toggle" type="button" th:attr="data-movie-id=${movie.id}">💬 Comments</button>
-                <a class="book" th:href="@{/movie-sessions/available(movieId=${movie.id})}">Check Sessions</a>
+                <button class="button comment-button" type="button"
+                        th:attr="data-movie-id=${movie.id}, status=accepted">💬 Comments</button>
+                <th:block sec:authorize="hasRole('ADMIN')">
+                    <button class="button comment-button button-admin" type="button"
+                            th:attr="data-movie-id=${movie.id}, status=pending">🕓 Pending Comments</button>
+                </th:block>
+                <a class="button" th:href="@{/movie-sessions/available(movieId=${movie.id})}">Check Sessions</a>
             </div>
             <div class="comments-section" style="display: none;"></div>
 

@@ -12,6 +12,7 @@ public class Comment {
   private Long id;
 
   private String text;
+  private Status status;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
@@ -20,4 +21,8 @@ public class Comment {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "movie_id")
   private Movie movie;
+
+  public enum Status {
+    ACCEPTED, PENDING
+  }
 }

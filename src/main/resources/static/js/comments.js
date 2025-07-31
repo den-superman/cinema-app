@@ -1,11 +1,12 @@
     document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('.comments-toggle').forEach(button => {
+      document.querySelectorAll('.comment-button').forEach(button => {
         button.addEventListener('click', function () {
           const movieId = this.getAttribute('data-movie-id');
+          const status = this.getAttribute('status');
           const container = this.closest('li').querySelector('.comments-section');
 
           if (container.style.display === 'none') {
-            fetch(`/movies/${movieId}/comments`)
+            fetch(`/movies/${movieId}/comments/${status}`)
               .then(response => {
                 if (!response.ok) {
                   throw new Error(`HTTP error! Status: ${response.status}`);
@@ -13,7 +14,6 @@
                 return response.json();
               })
               .then(comments => {
-                console.log('COMMENTS:', comments);
                 container.innerHTML = `
                   <div class="comment-list">
                     ${comments.map(c => `
