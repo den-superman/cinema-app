@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Cinema Hall</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 text-gray-900">
+<div th:replace="~{fragments :: header}"></div>
+
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+    <h1 class="text-xl font-semibold mb-4 text-center">Create Cinema Hall</h1>
+
+    <form action="/cinema-halls" method="post" class="space-y-5">
+
+        <!-- Rows -->
+        <div>
+            <label for="rows" class="block mb-1 font-medium">Number of Rows</label>
+            <input type="number" name="rows" id="rows" min="1" required
+                   placeholder="e.g. 10"
+                   class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <!-- Seats in Row -->
+        <div>
+            <label for="seatsInRow" class="block mb-1 font-medium">Seats per Row</label>
+            <input type="number" name="seatsInRow" id="seatsInRow" min="1" required
+                   placeholder="e.g. 15"
+                   class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label for="description" class="block mb-1 font-medium">Description</label>
+            <textarea name="description" id="description" maxlength="200" rows="3"
+                      placeholder="Short description about this hall"
+                      class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Create Hall
+        </button>
+
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Sessions</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f7f8fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+
+        .session-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .session-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .session-info {
+            flex: 1 1 60%;
+        }
+
+        .movie-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 0.4rem;
+        }
+
+        .cinema-hall,
+        .show-time {
+            font-size: 0.95rem;
+            color: #6c7a89;
+            margin-bottom: 0.2rem;
+        }
+
+        .choose-seat-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .choose-seat-btn:hover {
+            background-color: #2980b9;
+        }
+
+        form {
+            flex: 1 1 auto;
+            text-align: right;
+        }
+
+        @media (max-width: 600px) {
+            .session-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            form {
+                text-align: left;
+                margin-top: 1rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<main>
+    <h1>🎟️ Movie Sessions</h1>
+
+    <div class="session-list">
+        <div class="session-card" th:each="movieSession : ${movieSessions}">
+            <div class="session-info">
+                <p class="movie-title" th:text="${movieSession.movie.title}">Movie title</p>
+                <p class="cinema-hall" th:text="'Hall: ' + ${movieSession.cinemaHall.description}">Cinema Hall</p>
+                <p class="show-time"
+                   th:text="'Showtime: ' + ${#temporals.format(movieSession.showTime, 'dd MMM yyyy, HH:mm')}">Show
+                    time</p>
+            </div>
+            <form th:action="@{/movie-sessions/{id}/seats(id=${movieSession.id})}" method="get">
+                <button type="submit" class="choose-seat-btn">Choose Seat</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

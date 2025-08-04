@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Free Seats</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f6f8;
+            margin: 0; padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 0;
+        }
+
+        .screen-label {
+            width: 80%;
+            max-width: 500px;
+            height: 30px;
+            margin: 15px auto 10px auto;
+            background: linear-gradient(90deg, #ccc, #eee, #ccc);
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            line-height: 30px;
+            font-weight: bold;
+            color: #555;
+            user-select: none;
+        }
+
+        .seating-chart {
+            display: inline-block;
+            margin-top: 10px;
+            background: white;
+            padding: 20px 25px 25px 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .row {
+            display: flex;
+            margin-bottom: 8px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .row span:first-child {
+            width: 60px; /* Fixed width for row numbers */
+            text-align: right;
+            margin-right: 10px;
+            font-weight: bold;
+            color: #555;
+            user-select: none;
+        }
+
+        .seat {
+            width: 34px;
+            height: 34px;
+            margin: 3px;
+            border: 1.5px solid #ccc;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            user-select: none;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .seat.free {
+            background-color: #90EE90; /* Light Green for Free Seats */
+            border-color: #4CAF50;
+            color: #000;
+        }
+
+        .seat.occupied {
+            background-color: #FF6347; /* Tomato Red for Occupied Seats */
+            cursor: not-allowed;
+            color: #fff;
+        }
+
+        .seat.selected {
+            background-color: #FFD700; /* Gold for Selected Seats */
+            border-color: #daa520;
+            color: #000;
+        }
+
+        .seat.free:hover {
+            background-color: #32CD32; /* Darker green on hover */
+            border-color: #228B22;
+        }
+
+        #select-seats-btn {
+            margin: 25px auto 0 auto;
+            padding: 12px 28px;
+            font-size: 18px;
+            background-color: #2196F3; /* Blue */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            max-width: 200px;
+            user-select: none;
+        }
+
+        #select-seats-btn:hover {
+            background-color: #0b7dda;
+        }
+
+        #confirm-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            background: rgba(255, 255, 255, 0.65);
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            z-index: 1000;
+            padding: 25px 30px;
+            text-align: center;
+            user-select: none;
+        }
+
+        #confirm-modal.show {
+            display: block;
+        }
+
+        #confirm-modal p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        #confirm-modal button {
+            margin: 0 10px;
+            padding: 10px 22px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+            user-select: none;
+        }
+
+        #confirm-buy-btn {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        #confirm-buy-btn:hover {
+            background-color: #449d48;
+        }
+
+        #cancel-btn {
+            background-color: #f44336; /* Red */
+            color: white;
+        }
+
+        #cancel-btn:hover {
+            background-color: #d1362a;
+        }
+
+        #modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.4);
+            z-index: 999;
+        }
+        #modal-backdrop.show {
+            display: block;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: rgba(40, 40, 40, 0.7); /* тёмно-серый с прозрачностью */
+            color: #ddd; /* светло-серый текст */
+            border: none;
+            padding: 8px 16px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+            box-shadow: none;
+        }
+
+        .back-button:hover {
+            background-color: rgba(60, 60, 60, 0.9); /* чуть светлее на ховере */
+            color: #fff; /* белый текст на ховере */
+        }
+    </style>
+</head>
+<body>
+<button id="back-button" onclick="history.back()" class="back-button">← Back</button>
+<h1>Choose Your Seat</h1>
+
+<div class="screen-label">
+    <svg width="24" height="24" fill="#555" style="vertical-align: middle; margin-right: 8px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="20" height="10" x="2" y="6" rx="2" ry="2" stroke="#555" stroke-width="1.5" fill="none"/></svg>
+    SCREEN
+</div>
+
+<div class="seating-chart" id="seating-chart">
+    <div th:each="row, rowStat : ${seatMatrix}">
+        <div class="row">
+            <span th:text="'Row ' + (${rowStat.index} + 1)"></span>
+            <div th:each="seat, seatStat : ${row}"
+                 th:class="'seat ' + (${seat} ? 'occupied' : 'free')"
+                 th:attr="data-row=${rowStat.index + 1}, data-seat=${seatStat.index + 1}">
+                <span th:text="${seatStat.index + 1}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="select-seats-btn">Select Seats</button>
+
+<div id="modal-backdrop"></div>
+<div id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <p id="modal-title">Confirm and buy tickets?</p>
+    <button id="confirm-buy-btn">Buy</button>
+    <button id="cancel-btn">Cancel</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const freeSeats = document.querySelectorAll(".seat.free");
+        const selectSeatsBtn = document.getElementById("select-seats-btn");
+        const confirmModal = document.getElementById("confirm-modal");
+        const modalBackdrop = document.getElementById("modal-backdrop");
+        const confirmBuyBtn = document.getElementById("confirm-buy-btn");
+        const cancelBtn = document.getElementById("cancel-btn");
+        const selectedSeats = [];
+
+        // Получаем id сессии из url
+        const urlParts = window.location.pathname.split("/");
+        const movieSessionId = urlParts[urlParts.indexOf("movie-sessions") + 1];
+
+        freeSeats.forEach(seat => {
+            seat.addEventListener("click", () => {
+                const row = seat.getAttribute("data-row");
+                const seatNumber = seat.getAttribute("data-seat");
+
+                if (seat.classList.contains("selected")) {
+                    seat.classList.remove("selected");
+                    const index = selectedSeats.indexOf(`${row}-${seatNumber}`);
+                    if (index > -1) selectedSeats.splice(index, 1);
+                } else {
+                    seat.classList.add("selected");
+                    selectedSeats.push(`${row}-${seatNumber}`);
+                }
+            });
+        });
+
+        function openModal() {
+            confirmModal.classList.add("show");
+            modalBackdrop.classList.add("show");
+        }
+
+        function closeModal() {
+            confirmModal.classList.remove("show");
+            modalBackdrop.classList.remove("show");
+        }
+
+        selectSeatsBtn.addEventListener("click", () => {
+            if (selectedSeats.length === 0) {
+                alert("No seats selected!");
+                return;
+            }
+            openModal();
+        });
+
+        cancelBtn.addEventListener("click", () => {
+            closeModal();
+        });
+
+        modalBackdrop.addEventListener("click", () => {
+            closeModal();
+        });
+
+        confirmBuyBtn.addEventListener("click", () => {
+            confirmBuyBtn.disabled = true;
+            fetch(`/movie-sessions/${movieSessionId}/confirm-seats`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ seats: selectedSeats })
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/tickets';
+                } else {
+                    alert("Error confirming seats. Please try again.");
+                    confirmBuyBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+                confirmBuyBtn.disabled = false;
+            });
+        });
+    });
+</script>
+</body>
+</html>

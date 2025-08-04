@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Cinema App</title>
+    <!-- <link rel="stylesheet" href="/styles.css"> -->
+</head>
+<body>
+<div th:fragment="header">
+    <header style="background-color: #333; color: #fff; padding: 10px 20px; position: sticky; top: 0; z-index: 1000;">
+        <nav style="display: flex; justify-content: space-between; align-items: center;">
+            <ul style="list-style: none; display: flex; margin: 0; padding: 0;">
+                <li style="margin: 0 10px;"><a href="/movies"
+                                               style="color: #fff; text-decoration: none; font-weight: bold;">Movies</a>
+                </li>
+                <li style="margin: 0 10px;"><a href="/tickets"
+                                               style="color: #fff; text-decoration: none; font-weight: bold;">My
+                    tickets</a></li>
+            </ul>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit"
+                        style="background-color: #f44336; color: white; border: none; padding: 5px 10px; font-size: 16px; cursor: pointer; border-radius: 5px;">
+                    Logout
+                </button>
+            </form>
+        </nav>
+    </header>
+</div>
+
+<footer>
+    <p>© 2025 My Cinema App</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Available Movies</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f7f8fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+
+        .movie-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .movie-item {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .movie-info {
+            margin-bottom: 1rem;
+        }
+
+        .movie-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 0.5rem;
+        }
+
+        .movie-description {
+            font-size: 0.95rem;
+            color: #6c7a89;
+        }
+
+        .movie-actions {
+            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .button {
+            background-color: #3498db;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        .comment-button {
+            background-color: #2ecc71;
+        }
+        .comment-button:hover {
+            background-color: #27ae60;
+        }
+
+        .button-admin {
+            background-color: #e67e00;
+        }
+        .button-admin:hover {
+            background-color: #cc6f00 ;
+        }
+
+        .accept-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin-right: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reject-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+    </style>
+</head>
+<body th:attr="data-user-email=${#authentication.name}, data-user-is-admin=${#authorization.expression('hasRole(''ADMIN'')')}">
+
+<div th:replace="~{fragments :: header}"></div>
+
+<th:block sec:authorize="hasRole('ADMIN')">
+    <nav class="space-y-2">
+        <a th:href="@{/movie-sessions/new}" class="button button-admin">Add Movie Session</a>
+        <a th:href="@{/movies/new}" class="button button-admin">Add Movie</a>
+        <a th:href="@{/cinema-halls/new}" class="button button-admin">Add Cinema Hall</a>
+    </nav>
+</th:block>
+
+<main>
+    <h1>🎬 Available Movies</h1>
+    <ul class="movie-list">
+        <li class="movie-item" th:each="movie : ${movies}">
+            <div class="movie-info">
+                <p class="movie-title" th:text="${movie.title}">Movie Title</p>
+                <p class="movie-description" th:text="${movie.description}">Movie description goes here...</p>
+            </div>
+            <div class="movie-actions">
+                <button class="button comment-button" type="button"
+                        th:attr="data-movie-id=${movie.id}, status=accepted">💬 Comments</button>
+                <th:block sec:authorize="hasRole('ADMIN')">
+                    <button class="button comment-button button-admin" type="button"
+                            th:attr="data-movie-id=${movie.id}, status=pending">🕓 Pending Comments</button>
+                </th:block>
+                <a class="button" th:href="@{/movie-sessions/available(movieId=${movie.id})}">Check Sessions</a>
+            </div>
+            <div class="comments-section" style="display: none;"></div>
+
+        </li>
+    </ul>
+</main>
+
+<script src="/js/comments.js" defer></script>
+
+</body>
+</html>

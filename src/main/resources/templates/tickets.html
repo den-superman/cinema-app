@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Tickets</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .tickets-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 2rem;
+        }
+
+        .ticket-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .ticket-item {
+            display: flex;
+            justify-content: center;
+        }
+
+        .ticket-card {
+            background: #fff;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .ticket-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .ticket-card h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-card p {
+            margin: 0.4rem 0;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .ticket-card strong {
+            color: #000;
+        }
+
+        .no-tickets {
+            text-align: center;
+            font-style: italic;
+            color: #777;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<main class="tickets-container">
+    <h1>🎟️ My Tickets</h1>
+
+    <ul class="ticket-list" th:if="${#lists.isEmpty(tickets)}">
+        <p class="no-tickets">You have no tickets yet.</p>
+    </ul>
+
+    <ul class="ticket-list" th:each="ticket : ${tickets}">
+        <li class="ticket-item">
+            <div class="ticket-card">
+                <h2 th:text="${ticket.movieSession.movie.title}">Movie Title</h2>
+                <p>
+                    <strong>Row:</strong>
+                    <span th:text="${ticket.line}">Row</span>
+                </p>
+                <p>
+                    <strong>Seat:</strong>
+                    <span th:text="${ticket.seat}">Seat</span>
+                </p>
+                <p>
+                    <strong>Show Time:</strong>
+                    <span th:text="${#temporals.format(ticket.movieSession.showTime, 'dd MMM yyyy, HH:mm')}">
+                            Time
+                        </span>
+                </p>
+                <p>
+                    <strong>Hall:</strong>
+                    <span th:text="${ticket.movieSession.cinemaHall.description}">Cinema Hall</span>
+                </p>
+            </div>
+        </li>
+    </ul>
+</main>
+</body>
+</html>

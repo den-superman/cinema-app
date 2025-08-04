@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Register</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f7f8fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 0.3rem;
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            padding: 0.6rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #fff;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            padding-left: 0.2rem;
+        }
+
+        .global-error {
+            color: #c0392b;
+            background-color: #fce4e4;
+            border: 1px solid #e0b4b4;
+            padding: 0.6rem;
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .login-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📝 Register</h1>
+    <form th:action="@{/register}" th:object="${userRequestDto}" method="post">
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" th:field="*{email}" required/>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></div>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" th:field="*{password}" required/>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></div>
+
+        <label for="repeatPassword">Repeat password:</label>
+        <input type="password" id="repeatPassword" th:field="*{repeatPassword}" required/>
+        <div th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}" class="error-message"></div>
+
+        <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}"
+             class="global-error"></div>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="login-link">
+        <p>Already have an account? <a href="/login">Back to login</a></p>
+    </div>
+</div>
+
+</body>
+</html>
