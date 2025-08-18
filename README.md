@@ -1,4 +1,4 @@
-<img width="1919" height="906" alt="image" src="https://github.com/user-attachments/assets/102853a3-3aa3-40cd-a137-1eb1d8e4568f" />﻿# 🎬 Cinema Booking App
+﻿# 🎬 Cinema Booking App
 
 A simple web application for managing movies, movie sessions, and ticket bookings.
 
@@ -62,3 +62,4 @@ Or if you're using IntelliJ, just run the main class with the environment variab
 
 
 ### 4. Access it at: http://localhost:8080
+
