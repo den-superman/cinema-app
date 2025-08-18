@@ -1,4 +1,4 @@
-﻿# 🎬 Cinema Booking App
+<img width="1919" height="906" alt="image" src="https://github.com/user-attachments/assets/102853a3-3aa3-40cd-a137-1eb1d8e4568f" />﻿# 🎬 Cinema Booking App
 
 A simple web application for managing movies, movie sessions, and ticket bookings.
 
@@ -22,6 +22,20 @@ A simple web application for managing movies, movie sessions, and ticket booking
     - Adding movies
     - Adding movie sessions
     - Deleting comments
+ 
+## 📸 Screenshots
+
+- Home page  
+  <img width="1919" height="913" alt="image" src="https://github.com/user-attachments/assets/81e5df08-dc9a-4876-8fab-c31cb74440fc" />
+
+- My tickets  
+  <img width="1914" height="911" alt="image" src="https://github.com/user-attachments/assets/969fb2c1-63ef-4955-9c78-2a55f8eedfdf" />
+
+- Booking form  
+  <img width="1918" height="910" alt="image" src="https://github.com/user-attachments/assets/07a94ee7-d277-432b-aa1e-678c6fd1c8ff" />
+
+- Admin view
+  <img width="1919" height="906" alt="image" src="https://github.com/user-attachments/assets/41f31792-4601-43db-b405-a340758db3e6" />
 
 ## 🛠️ Getting Started
 
@@ -45,5 +59,6 @@ export OPEN_ROUTER_KEY=your_openrouter_api_key
 mvn spring-boot:run
 ```
 Or if you're using IntelliJ, just run the main class with the environment variables set.
+
 
 ### 4. Access it at: http://localhost:8080
